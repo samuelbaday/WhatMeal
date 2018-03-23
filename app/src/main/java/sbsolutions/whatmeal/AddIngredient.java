@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -16,10 +19,15 @@ import butterknife.ButterKnife;
 import sbsolutions.adapters.IngredientAdapter;
 import sbsolutions.dataclass.Ingredient;
 
-public class AddIngredient extends AppCompatActivity {
+public class AddIngredient extends AppCompatActivity implements IngredientAdapter.ItemClickListener{
 
     @Bind(R.id.ingredients_list_recycler)
     RecyclerView recyclerView;
+
+    @Bind(R.id.progressBarHolder)
+    ViewGroup progressBarHolder;
+    AlphaAnimation inAnimation;
+    AlphaAnimation outAnimation;
 
     LinearLayoutManager mLayoutManager;
     InfiniteFireArray<Ingredient> array;
@@ -34,6 +42,8 @@ public class AddIngredient extends AppCompatActivity {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
 
+        showLoadingNoDelay();
+
         mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
 
@@ -41,13 +51,21 @@ public class AddIngredient extends AppCompatActivity {
                 .child(getString(R.string.firebase_child_ingredients))
                 .orderByChild(getString(R.string.firebase_ingredient_name));
 
-        array = new InfiniteFireArray<>(Ingredient.class,query,10,10,false,false);
+        array = new InfiniteFireArray<>(Ingredient.class,query,10,10,true,false);
         IngredientAdapter ingredientListAdapter = new IngredientAdapter(getBaseContext(),array);
 
         recyclerView.setAdapter(ingredientListAdapter);
+        ingredientListAdapter.setClickListener(this);
         recyclerView.addOnScrollListener(mScrollListener);
 
-
+        array.addOnLoadingStatusListener(new InfiniteFireArray.OnLoadingStatusListener() {
+            @Override
+            public void onChanged(EventType eventType) {
+                if(eventType.equals(EventType.Done)){
+                    hideLoadingNoDelay();
+                }
+            }
+        });
     }
 
     RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
@@ -72,4 +90,40 @@ public class AddIngredient extends AppCompatActivity {
             }
         }
     };
+
+    public void showLoadingNoDelay() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        inAnimation = new AlphaAnimation(0f, 1f);
+                        inAnimation.setDuration(200);
+                        progressBarHolder.setAnimation(inAnimation);
+                        progressBarHolder.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        }).start();
+
+    }
+
+    public void hideLoadingNoDelay() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                outAnimation = new AlphaAnimation(1f, 0f);
+                outAnimation.setDuration(200);
+                progressBarHolder.setAnimation(outAnimation);
+                progressBarHolder.setVisibility(View.GONE);
+            }
+        });
+    }
+
+
+    @Override
+    public void onItemClick(View view, String ingredient) {
+        Log.i("INGREDIENT_DET",ingredient);
+    }
 }

@@ -2,9 +2,12 @@ package sbsolutions.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -12,6 +15,8 @@ import android.widget.TextView;
 import com.marcorei.infinitefire.InfiniteFireArray;
 import com.marcorei.infinitefire.InfiniteFireRecyclerViewAdapter;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import sbsolutions.whatmeal.R;
 import sbsolutions.dataclass.Ingredient;
@@ -25,11 +30,14 @@ public class IngredientAdapter extends InfiniteFireRecyclerViewAdapter<Ingredien
     public static final int VIEW_TYPE_CONTENT = 1;
     public static final int VIEW_TYPE_FOOTER = 2;
     Context context;
+    private ItemClickListener mClickListener;
+    Ingredient ingredient;
+    InfiniteFireArray snapshots2;
 
     /**
      * This is the view holder for the chat messages.
      */
-    public static class LetterHolder extends RecyclerView.ViewHolder {
+    public class LetterHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
         public TextView ingredientName;
         public ImageView ingredientPic;
 
@@ -38,6 +46,13 @@ public class IngredientAdapter extends InfiniteFireRecyclerViewAdapter<Ingredien
             ingredientName = (TextView) itemView.findViewById(R.id.ingredient_name);
             ingredientPic = (ImageView) itemView.findViewById(R.id.ingredient_pic);
 
+        }
+
+        @Override
+        public void onClick(View view) {
+            Log.i("INGRED_T",":0");
+//            if (mClickListener != null) mClickListener.onItemClick(view, ingredientName.getText().toString());
+            mClickListener.onItemClick(view, ingredientName.getText().toString());
         }
     }
 
@@ -61,8 +76,8 @@ public class IngredientAdapter extends InfiniteFireRecyclerViewAdapter<Ingredien
     public IngredientAdapter(Context context, InfiniteFireArray snapshots) {
         super(snapshots, 0, 1);
         this.context = context;
+        this.snapshots2 = snapshots;
     }
-
 
     /**
      * @return status of load-more loading procedures
@@ -90,6 +105,8 @@ public class IngredientAdapter extends InfiniteFireRecyclerViewAdapter<Ingredien
         }
         return VIEW_TYPE_CONTENT;
     }
+
+
 
     public int getSpanSize(int position) {
         if(position == getItemCount() - 1) {
@@ -148,5 +165,14 @@ public class IngredientAdapter extends InfiniteFireRecyclerViewAdapter<Ingredien
             default:
                 throw new IllegalArgumentException("Unknown type");
         }
+    }
+
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+
+
+    public interface ItemClickListener {
+        void onItemClick(View view, String ingredient);
     }
 }
