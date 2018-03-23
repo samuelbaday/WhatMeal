@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:padding="5dp"
+            android:src="@drawable/web_hi_res_512_cook"
+            android:id="@+id/ingredient_pic"
+            android:layout_width="75dp"
+            android:layout_height="75dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_marginLeft="16dp"
+                android:id="@+id/ingredient_name"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:text="Ingredient Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!--<Button-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:text="x"-->
+                <!--android:layout_margin="16dp"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:background="@drawable/round_button"-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="30dp" />-->
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

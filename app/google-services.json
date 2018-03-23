@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "586720685065",
+    "firebase_url": "https://what2cook-6c70e.firebaseio.com",
+    "project_id": "what2cook-6c70e",
+    "storage_bucket": "what2cook-6c70e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586720685065:android:edaa148c4c24084c",
+        "android_client_info": {
+          "package_name": "sbsolutions.whatmeal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586720685065-tava8i4pf1vqhk38is5u210ab6oci5p2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sbsolutions.whatmeal",
+            "certificate_hash": "df80d09a18e2c11b709218ebd95f171ca29f8ed0"
+          }
+        },
+        {
+          "client_id": "586720685065-an3l25n4akg78amr988gt6rr07r0tb0o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB-gJ-yl5q_oJh7M2zB8AgXqhv-MgJAps"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586720685065-an3l25n4akg78amr988gt6rr07r0tb0o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

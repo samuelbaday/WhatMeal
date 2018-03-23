@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WhatMeal</string>
+    <string name="firebase_child_ingredients">ingredients</string>
+    <string name="firebase_ingredient_name">ingredient_name</string>
+</resources>
