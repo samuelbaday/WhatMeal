@@ -1,13 +1,16 @@
 package sbsolutions.whatmeal;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -39,6 +42,8 @@ public class AddIngredient extends AppCompatActivity implements IngredientAdapte
         setContentView(R.layout.activity_add_ingredient);
         ButterKnife.bind(this);
 
+        setTitle("Choose Ingredient to Add");
+
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference();
 
@@ -57,6 +62,7 @@ public class AddIngredient extends AppCompatActivity implements IngredientAdapte
         recyclerView.setAdapter(ingredientListAdapter);
         ingredientListAdapter.setClickListener(this);
         recyclerView.addOnScrollListener(mScrollListener);
+
 
         array.addOnLoadingStatusListener(new InfiniteFireArray.OnLoadingStatusListener() {
             @Override
@@ -123,7 +129,16 @@ public class AddIngredient extends AppCompatActivity implements IngredientAdapte
 
 
     @Override
-    public void onItemClick(View view, String ingredient) {
-        Log.i("INGREDIENT_DET",ingredient);
+    public void onItemClick(View view, int position) {
+        Ingredient ingredient = array.getItem(position).getValue();
+        Log.i("INGREDIENT_DET","Ingredient Name: " + ingredient.getIngredient_name());
+
+        Intent data = new Intent();
+        data.putExtra("ingredient_name",ingredient.getIngredient_name());
+        data.putExtra("ingredient_pic",ingredient.getPic_url());
+        setResult(RESULT_OK,data);
+        finish();
+
+//        Toast.makeText(AddIngredient.this, "INGREDIENT_DET", Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,6 +1,7 @@
 package sbsolutions.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,19 +41,26 @@ public class IngredientAdapter extends InfiniteFireRecyclerViewAdapter<Ingredien
     public class LetterHolder extends RecyclerView.ViewHolder  implements View.OnClickListener {
         public TextView ingredientName;
         public ImageView ingredientPic;
+        public CardView cardView;
 
         public LetterHolder(View itemView) {
             super(itemView);
             ingredientName = (TextView) itemView.findViewById(R.id.ingredient_name);
             ingredientPic = (ImageView) itemView.findViewById(R.id.ingredient_pic);
+            cardView = (CardView) itemView.findViewById(R.id.card_ingredient);
 
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mClickListener.onItemClick(view, getAdapterPosition());
+                }
+            });
         }
 
         @Override
         public void onClick(View view) {
-            Log.i("INGRED_T",":0");
+            Log.i("INGRED_T",":0" + getAdapterPosition());
 //            if (mClickListener != null) mClickListener.onItemClick(view, ingredientName.getText().toString());
-            mClickListener.onItemClick(view, ingredientName.getText().toString());
         }
     }
 
@@ -173,6 +181,6 @@ public class IngredientAdapter extends InfiniteFireRecyclerViewAdapter<Ingredien
 
 
     public interface ItemClickListener {
-        void onItemClick(View view, String ingredient);
+        void onItemClick(View view,int position);
     }
 }
